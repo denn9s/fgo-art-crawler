@@ -1,3 +1,7 @@
+import urllib.request
+import urllib.error
+import urllib.parse
+
 def main():
 	pass
 
