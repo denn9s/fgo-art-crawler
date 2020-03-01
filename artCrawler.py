@@ -23,6 +23,8 @@ def makeServantList():
 def makeSoup():
 	servantListHTML = open('servantListPage.html', encoding = 'utf-8')
 	soup = BeautifulSoup(servantListHTML, features = 'html.parser')
+	for link in soup.find_all('a'):
+		title = link.get('title')
 
 if __name__ == '__main__':
 	main()
