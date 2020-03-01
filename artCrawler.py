@@ -5,7 +5,7 @@ import urllib.parse
 from bs4 import BeautifulSoup
 
 BASE_URL = 'https://grandorder.wiki/Servant_List'
-CLASS_LIST = ['Saber', 'Archer', 'Lancer', 'Caster', 'Rider', 'Assassin', 'Ruler', 'Avenger', 'Moon Cancer', 'Alter-Ego', 'Foreigner', 'Berserker', 'Shielder']
+CLASS_LIST = ['Saber', 'Archer', 'Lancer', 'Caster', 'Rider', 'Assassin', 'Ruler', 'Avenger', 'Moon Cancer', 'Alter-Ego', 'Foreigner', 'Berserker', 'Shielder', 'Beast']
 SERVANT_NAME_LIST = []
 
 def main():
@@ -30,6 +30,10 @@ def makeSoup():
 			SERVANT_NAME_LIST.append(title)
 
 def titleCheck(title):
+	if (title is None):
+		return False
+	if (title in CLASS_LIST):
+		return False
 	return True
 
 if __name__ == '__main__':
