@@ -8,10 +8,10 @@ BASE_URL = 'https://grandorder.wiki/Servant_List'
 CLASS_LIST = ['Saber', 'Archer', 'Lancer', 'Caster', 'Rider', 'Assassin', 'Ruler', 'Avenger', 'Moon Cancer', 'Alter-Ego', 'Foreigner', 'Berserker', 'Shielder']
 
 def main():
-	# makeServantList() # comment out if HTML creation isn't needed anymore
+	# makeServantListHTML() # comment out if HTML creation isn't needed anymore
 	makeSoup()
 
-def makeServantList():
+def makeServantListHTML():
 	request = urllib.request.Request(BASE_URL, headers = {'User-Agent': 'Mozilla/5.0'})
 	response = urllib.request.urlopen(request)
 	content = response.read()
