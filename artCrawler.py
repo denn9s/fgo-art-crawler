@@ -24,15 +24,24 @@ def makeServantListHTML():
 def makeSoup():
 	servantListHTML = open('servantListPage.html', encoding = 'utf-8')
 	soup = BeautifulSoup(servantListHTML, features = 'html.parser')
+	makeTitleList(soup)
+
+def makeTitleList(soup):
 	for link in soup.find_all('a'):
 		title = link.get('title')
 		if (titleCheck(title) == True):
 			SERVANT_NAME_LIST.append(title)
+	for item in SERVANT_NAME_LIST:
+		print(item)
 
 def titleCheck(title):
 	if (title is None):
 		return False
 	if (title in CLASS_LIST):
+		return False
+	if ('Servants' in title):
+		return False
+	if ('Friend Points' in title):
 		return False
 	return True
 
