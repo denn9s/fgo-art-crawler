@@ -5,6 +5,7 @@ import urllib.parse
 from bs4 import BeautifulSoup
 
 BASE_URL = 'https://grandorder.wiki/Servant_List'
+CLASS_LIST = ['Saber', 'Archer', 'Lancer', 'Caster', 'Rider', 'Assassin', 'Ruler', 'Avenger', 'Moon Cancer', 'Alter-Ego', 'Foreigner', 'Berserker', 'Shielder']
 
 def main():
 	# makeServantList() # comment out if HTML creation isn't needed anymore
