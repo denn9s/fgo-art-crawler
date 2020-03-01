@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 
 BASE_URL = 'https://grandorder.wiki/Servant_List'
 CLASS_LIST = ['Saber', 'Archer', 'Lancer', 'Caster', 'Rider', 'Assassin', 'Ruler', 'Avenger', 'Moon Cancer', 'Alter-Ego', 'Foreigner', 'Berserker', 'Shielder']
+SERVANT_NAME_LIST = []
 
 def main():
 	# makeServantListHTML() # comment out if HTML creation isn't needed anymore
@@ -25,6 +26,11 @@ def makeSoup():
 	soup = BeautifulSoup(servantListHTML, features = 'html.parser')
 	for link in soup.find_all('a'):
 		title = link.get('title')
+		if (titleCheck(title) == True):
+			SERVANT_NAME_LIST.append(title)
+
+def titleCheck(title):
+	return True
 
 if __name__ == '__main__':
 	main()
