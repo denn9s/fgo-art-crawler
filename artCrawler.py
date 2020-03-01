@@ -2,10 +2,13 @@ import urllib.request
 import urllib.error
 import urllib.parse
 
+from bs4 import BeautifulSoup
+
 BASE_URL = 'https://grandorder.wiki/Servant_List'
 
 def main():
-	makeServantList() # comment out if HTML creation isn't needed anymore
+	# makeServantList() # comment out if HTML creation isn't needed anymore
+	makeSoup()
 
 def makeServantList():
 	request = urllib.request.Request(BASE_URL, headers = {'User-Agent': 'Mozilla/5.0'})
@@ -15,6 +18,10 @@ def makeServantList():
 	file = open('servantListPage.html', 'wb')
 	file.write(content)
 	file.close
+
+def makeSoup():
+	servantListHTML = open('servantListPage.html', encoding = 'utf-8')
+	soup = BeautifulSoup(servantListHTML, features = 'html.parser')
 
 if __name__ == '__main__':
 	main()
