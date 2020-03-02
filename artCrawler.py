@@ -55,5 +55,8 @@ def titleCheck(title):
 			return False
 	return True
 
+def createServantPageLinks():
+	pass
+
 if __name__ == '__main__':
 	main()
