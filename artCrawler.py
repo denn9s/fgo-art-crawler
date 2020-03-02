@@ -15,7 +15,7 @@ def main():
 	soup = createSoup()
 	createTitleList(soup)
 	createServantPageLinks()
-	createServantPageLinksHTML()
+	# createServantPageLinksHTML() # comment out if no need to update servant link .txt file
 
 def createServantListHTML():
 	request = urllib.request.Request(BASE_URL, headers = {'User-Agent': 'Mozilla/5.0'})
