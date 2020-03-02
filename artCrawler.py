@@ -61,7 +61,7 @@ def createServantPageLinks():
 		underscoreName = servantName.replace(' ', '_')
 		baseLink = 'https://grandorder.wiki/'
 		servantLink = baseLink + underscoreName
-		print(servantLink)
+		SERVANT_LINK_LIST.append(servantLink)
 
 def createServantPageLinksHTML():
 	pass
