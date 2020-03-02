@@ -64,7 +64,9 @@ def createServantPageLinks():
 		SERVANT_LINK_LIST.append(servantLink)
 
 def createServantPageLinksHTML():
-	pass
+	file = open('servantLinks.txt', 'w')
+	for servant in SERVANT_LINK_LIST:
+		file.write('%s\n' % servant)
 
 if __name__ == '__main__':
 	main()
