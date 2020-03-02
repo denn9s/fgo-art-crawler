@@ -11,12 +11,12 @@ SERVANT_NAME_LIST = []
 SERVANT_LINK_LIST = []
 
 def main():
-	# makeServantListHTML() # comment out if HTML creation isn't needed anymore
-	soup = makeSoup()
-	makeTitleList(soup)
+	# createServantListHTML() # comment out if HTML creation isn't needed anymore
+	soup = createSoup()
+	createTitleList(soup)
 	createServantPageLinks()
 
-def makeServantListHTML():
+def createServantListHTML():
 	request = urllib.request.Request(BASE_URL, headers = {'User-Agent': 'Mozilla/5.0'})
 	response = urllib.request.urlopen(request)
 	content = response.read()
@@ -25,12 +25,12 @@ def makeServantListHTML():
 	file.write(content)
 	file.close
 
-def makeSoup():
+def createSoup():
 	servantListHTML = open('servantListPage.html', encoding = 'utf-8')
 	soup = BeautifulSoup(servantListHTML, features = 'html.parser')
 	return soup
 
-def makeTitleList(soup):
+def createTitleList(soup):
 	titleList = []
 	for link in soup.find_all('a'):
 		title = link.get('title')
