@@ -15,6 +15,7 @@ def main():
 	soup = createSoup()
 	createTitleList(soup)
 	createServantPageLinks()
+	createServantPageLinksHTML()
 
 def createServantListHTML():
 	request = urllib.request.Request(BASE_URL, headers = {'User-Agent': 'Mozilla/5.0'})
@@ -34,14 +35,14 @@ def createTitleList(soup):
 	titleList = []
 	for link in soup.find_all('a'):
 		title = link.get('title')
-		if (titleCheck(title) == True):
+		if (checkTitle(title) == True):
 			titleList.append(title)
 	for index in (range(len(titleList) - 1)):
 		if (titleList[index] == titleList[index + 1]):
 			SERVANT_NAME_LIST.append(titleList[index])
 	SERVANT_NAME_LIST.sort(key = str.lower)
 
-def titleCheck(title):
+def checkTitle(title):
 	if (title is None):
 		return False
 	if (title in CLASS_LIST):
@@ -61,6 +62,9 @@ def createServantPageLinks():
 		baseLink = 'https://grandorder.wiki/'
 		servantLink = baseLink + underscoreName
 		print(servantLink)
+
+def createServantPageLinksHTML():
+	pass
 
 if __name__ == '__main__':
 	main()
