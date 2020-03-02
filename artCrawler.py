@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 
 BASE_URL = 'https://grandorder.wiki/Servant_List'
 CLASS_LIST = ['Saber', 'Archer', 'Lancer', 'Caster', 'Rider', 'Assassin', 'Ruler', 'Avenger', 'Moon Cancer', 'Alter-Ego', 'Foreigner', 'Berserker', 'Shielder', 'Beast']
+EXTRA_CHARACTER_LIST = ['Beast', 'Solomon']
 SERVANT_NAME_LIST = []
 
 def main():
@@ -49,6 +50,9 @@ def titleCheck(title):
 		return False
 	if ('Friend Points' in title):
 		return False
+	for character in EXTRA_CHARACTER_LIST:
+		if (character in title):
+			return False
 	return True
 
 if __name__ == '__main__':
