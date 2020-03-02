@@ -36,6 +36,7 @@ def makeTitleList(soup):
 	for index in (range(len(titleList) - 1)):
 		if (titleList[index] == titleList[index + 1]):
 			SERVANT_NAME_LIST.append(titleList[index])
+	SERVANT_NAME_LIST.sort(key = str.lower)
 	for item in SERVANT_NAME_LIST:
 		print(item)
 
