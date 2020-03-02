@@ -8,11 +8,13 @@ BASE_URL = 'https://grandorder.wiki/Servant_List'
 CLASS_LIST = ['Saber', 'Archer', 'Lancer', 'Caster', 'Rider', 'Assassin', 'Ruler', 'Avenger', 'Moon Cancer', 'Alter-Ego', 'Foreigner', 'Berserker', 'Shielder', 'Beast']
 EXTRA_CHARACTER_LIST = ['Beast', 'Solomon']
 SERVANT_NAME_LIST = []
+SERVANT_LINK_LIST = []
 
 def main():
 	# makeServantListHTML() # comment out if HTML creation isn't needed anymore
 	soup = makeSoup()
 	makeTitleList(soup)
+	createServantPageLinks()
 
 def makeServantListHTML():
 	request = urllib.request.Request(BASE_URL, headers = {'User-Agent': 'Mozilla/5.0'})
@@ -38,8 +40,6 @@ def makeTitleList(soup):
 		if (titleList[index] == titleList[index + 1]):
 			SERVANT_NAME_LIST.append(titleList[index])
 	SERVANT_NAME_LIST.sort(key = str.lower)
-	for item in SERVANT_NAME_LIST:
-		print(item)
 
 def titleCheck(title):
 	if (title is None):
@@ -56,7 +56,11 @@ def titleCheck(title):
 	return True
 
 def createServantPageLinks():
-	pass
+	for servantName in SERVANT_NAME_LIST:
+		underscoreName = servantName.replace(' ', '_')
+		baseLink = 'https://grandorder.wiki/'
+		servantLink = baseLink + underscoreName
+		print(servantLink)
 
 if __name__ == '__main__':
 	main()
