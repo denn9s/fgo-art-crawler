@@ -27,10 +27,14 @@ def makeSoup():
 	makeTitleList(soup)
 
 def makeTitleList(soup):
+	titleList = []
 	for link in soup.find_all('a'):
 		title = link.get('title')
 		if (titleCheck(title) == True):
-			SERVANT_NAME_LIST.append(title)
+			titleList.append(title)
+	for index in (range(len(titleList) - 1)):
+		if (titleList[index] == titleList[index + 1]):
+			SERVANT_NAME_LIST.append(titleList[index])
 	for item in SERVANT_NAME_LIST:
 		print(item)
 
