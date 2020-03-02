@@ -10,7 +10,8 @@ SERVANT_NAME_LIST = []
 
 def main():
 	# makeServantListHTML() # comment out if HTML creation isn't needed anymore
-	makeSoup()
+	soup = makeSoup()
+	makeTitleList(soup)
 
 def makeServantListHTML():
 	request = urllib.request.Request(BASE_URL, headers = {'User-Agent': 'Mozilla/5.0'})
@@ -24,7 +25,7 @@ def makeServantListHTML():
 def makeSoup():
 	servantListHTML = open('servantListPage.html', encoding = 'utf-8')
 	soup = BeautifulSoup(servantListHTML, features = 'html.parser')
-	makeTitleList(soup)
+	return soup
 
 def makeTitleList(soup):
 	titleList = []
