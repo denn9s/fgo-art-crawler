@@ -9,6 +9,7 @@ CLASS_LIST = ['Saber', 'Archer', 'Lancer', 'Caster', 'Rider', 'Assassin', 'Ruler
 EXTRA_CHARACTER_LIST = ['Beast', 'Solomon']
 SERVANT_NAME_LIST = []
 SERVANT_LINK_LIST = []
+SERVANT_DICTIONARY = {} # key = servant name, value = link
 
 def main():
 	# createServantListHTML() # comment out if HTML creation isn't needed anymore
@@ -16,6 +17,7 @@ def main():
 	createTitleList(soup)
 	createServantPageLinks()
 	createServantPageLinksHTML() # comment out if no need to update servant link .txt file
+	importServantList()
 
 def createServantListHTML():
 	request = urllib.request.Request(BASE_URL, headers = {'User-Agent': 'Mozilla/5.0'})
@@ -68,6 +70,13 @@ def createServantPageLinksHTML():
 	file = open('servantLinks.txt', 'w', encoding = 'utf-8')
 	for servant in SERVANT_LINK_LIST:
 		file.write('%s\n' % servant)
+
+def importServantList():
+	file = open('servantLinks.txt', 'r', encoding = 'utf-8')
+	keyValueList = [line.rstrip('\n') for line in file]
+	for keyValue in range(len(keyValueList) - 1):
+		if (keyValue == 0 or keyValue % 2 == 0):
+			SERVANT_DICTIONARY[keyValueList[keyValue]] = keyValueList[keyValue + 1]
 
 if __name__ == '__main__':
 	main()
