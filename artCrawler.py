@@ -13,11 +13,12 @@ SERVANT_DICTIONARY = {} # key = servant name, value = link
 
 def main():
 	# createServantListHTML() # comment out if HTML creation isn't needed anymore
-	soup = createSoup()
-	createTitleList(soup)
-	createServantPageLinks()
-	createServantPageLinksHTML() # comment out if no need to update servant link .txt file
+	# soup = createSoup()
+	# createTitleList(soup)
+	# createServantPageLinks()
+	# createServantPageLinksHTML() # comment out if no need to update servant link .txt file
 	importServantList()
+	createServantImageLinks('')
 
 def createServantListHTML():
 	request = urllib.request.Request(BASE_URL, headers = {'User-Agent': 'Mozilla/5.0'})
@@ -77,6 +78,17 @@ def importServantList():
 	for keyValue in range(len(keyValueList) - 1):
 		if (keyValue == 0 or keyValue % 2 == 0):
 			SERVANT_DICTIONARY[keyValueList[keyValue]] = keyValueList[keyValue + 1]
+
+def createServantImageLinks(servantName):
+	servantName = 'Kama' # for test purposes only
+	servantLink = SERVANT_DICTIONARY[servantName]
+	request = urllib.request.Request(servantLink, headers = {'User-Agent': 'Mozilla/5.0'})
+	response = urllib.request.urlopen(request)
+	content = response.read()
+	soup = BeautifulSoup(content, features = 'html.parser')
+	for img in soup.find_all('a'):
+		href = img.get('href')
+		print(href)
 
 if __name__ == '__main__':
 	main()
