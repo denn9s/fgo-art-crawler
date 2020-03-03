@@ -81,6 +81,7 @@ def importServantList():
 
 def createServantImageLinks(servantName):
 	servantName = 'Kama' # for test purposes only
+	imagePrefix = 'Portrait_Servant_'
 	servantLink = SERVANT_DICTIONARY[servantName]
 	request = urllib.request.Request(servantLink, headers = {'User-Agent': 'Mozilla/5.0'})
 	response = urllib.request.urlopen(request)
@@ -88,7 +89,9 @@ def createServantImageLinks(servantName):
 	soup = BeautifulSoup(content, features = 'html.parser')
 	for img in soup.find_all('a'):
 		href = img.get('href')
-		print(href)
+		if (href != None):
+			if (imagePrefix in href):
+				print(href)
 
 if __name__ == '__main__':
 	main()
