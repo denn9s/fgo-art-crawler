@@ -16,12 +16,13 @@ SERVANT_IMAGE_DICTIONARY = defaultdict(list) # key = servant name, value = list 
 
 def main():
 	# createServantListHTML() # comment out if HTML creation isn't needed anymore
-	# soup = createSoup()
-	# createTitleList(soup)
-	# createServantPageLinks()
-	# createServantPageLinksHTML() # comment out if no need to update servant link .txt file
+	soup = createSoup()
+	createTitleList(soup)
+	createServantPageLinks()
+	createServantPageLinksHTML() # comment out if no need to update servant link .txt file
 	importServantList()
-	createServantImageLinks('')
+	for servant in SERVANT_DICTIONARY:
+		createServantImageLinks(servant)
 
 def createServantListHTML():
 	request = urllib.request.Request(BASE_URL, headers = {'User-Agent': 'Mozilla/5.0'})
@@ -83,10 +84,10 @@ def importServantList():
 			SERVANT_DICTIONARY[keyValueList[keyValue]] = keyValueList[keyValue + 1]
 
 def createServantImageLinks(servantName):
-	servantName = 'Kama' # for test purposes only
 	imagePrefix = 'Portrait_Servant_'
 	mainPage = 'https://grandorder.wiki'
 	servantLink = SERVANT_DICTIONARY[servantName]
+	servantLink = modifyUnicodeURL(servantLink)
 	request = urllib.request.Request(servantLink, headers = {'User-Agent': 'Mozilla/5.0'})
 	response = urllib.request.urlopen(request)
 	content = response.read()
@@ -96,6 +97,14 @@ def createServantImageLinks(servantName):
 		if (href != None):
 			if (imagePrefix in href):
 				SERVANT_IMAGE_DICTIONARY[servantName].append(mainPage + href)
+
+def modifyUnicodeURL(inputURL):
+	url = inputURL
+	url = urllib.parse.urlsplit(url)
+	url = list(url)
+	url[2] = urllib.parse.quote(url[2])
+	url = urllib.parse.urlunsplit(url)
+	return url
 
 if __name__ == '__main__':
 	main()
