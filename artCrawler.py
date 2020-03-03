@@ -4,12 +4,15 @@ import urllib.parse
 
 from bs4 import BeautifulSoup
 
+from collections import defaultdict
+
 BASE_URL = 'https://grandorder.wiki/Servant_List'
 CLASS_LIST = ['Saber', 'Archer', 'Lancer', 'Caster', 'Rider', 'Assassin', 'Ruler', 'Avenger', 'Moon Cancer', 'Alter-Ego', 'Foreigner', 'Berserker', 'Shielder', 'Beast']
 EXTRA_CHARACTER_LIST = ['Beast', 'Solomon']
 SERVANT_NAME_LIST = []
 SERVANT_LINK_LIST = []
 SERVANT_DICTIONARY = {} # key = servant name, value = link
+SERVANT_IMAGE_DICTIONARY = defaultdict(list) # key = servant name, value = list of links
 
 def main():
 	# createServantListHTML() # comment out if HTML creation isn't needed anymore
@@ -82,6 +85,7 @@ def importServantList():
 def createServantImageLinks(servantName):
 	servantName = 'Kama' # for test purposes only
 	imagePrefix = 'Portrait_Servant_'
+	mainPage = 'https://grandorder.wiki'
 	servantLink = SERVANT_DICTIONARY[servantName]
 	request = urllib.request.Request(servantLink, headers = {'User-Agent': 'Mozilla/5.0'})
 	response = urllib.request.urlopen(request)
@@ -91,7 +95,7 @@ def createServantImageLinks(servantName):
 		href = img.get('href')
 		if (href != None):
 			if (imagePrefix in href):
-				print(href)
+				SERVANT_IMAGE_DICTIONARY[servantName].append(mainPage + href)
 
 if __name__ == '__main__':
 	main()
