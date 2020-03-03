@@ -15,7 +15,7 @@ def main():
 	soup = createSoup()
 	createTitleList(soup)
 	createServantPageLinks()
-	# createServantPageLinksHTML() # comment out if no need to update servant link .txt file
+	createServantPageLinksHTML() # comment out if no need to update servant link .txt file
 
 def createServantListHTML():
 	request = urllib.request.Request(BASE_URL, headers = {'User-Agent': 'Mozilla/5.0'})
@@ -61,6 +61,7 @@ def createServantPageLinks():
 		underscoreName = servantName.replace(' ', '_')
 		baseLink = 'https://grandorder.wiki/'
 		servantLink = baseLink + underscoreName
+		SERVANT_LINK_LIST.append(servantName)
 		SERVANT_LINK_LIST.append(servantLink)
 
 def createServantPageLinksHTML():
