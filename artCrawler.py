@@ -140,7 +140,8 @@ def downloadImages(servantName):
 	imageCounter = 0
 	for imageLink in SERVANT_IMAGE_DICTIONARY_DIRECT[servantName]:
 		imageCounter += 1
-		compressedName = servantName.strip()
+		compressedName = servantName
+		compressedName.replace(' ', '')
 		if (imageCounter == 5):
 			urllib.request.urlretrieve(imageLink, BASE_IMAGE_DIR + compressedName + '/' + compressedName + '_AF' + '.jpg')
 		else:
