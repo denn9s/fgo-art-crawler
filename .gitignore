@@ -125,3 +125,4 @@ dmypy.json
 .pyre/
 servantListPage.html
 servantLinks.txt
+*.jpg
