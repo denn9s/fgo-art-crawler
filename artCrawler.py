@@ -6,6 +6,8 @@ from bs4 import BeautifulSoup
 
 from collections import defaultdict
 
+
+MAIN_PAGE = 'https://grandorder.wiki'
 BASE_URL = 'https://grandorder.wiki/Servant_List'
 CLASS_LIST = ['Saber', 'Archer', 'Lancer', 'Caster', 'Rider', 'Assassin', 'Ruler', 'Avenger', 'Moon Cancer', 'Alter-Ego', 'Foreigner', 'Berserker', 'Shielder', 'Beast']
 EXTRA_CHARACTER_LIST = ['Beast', 'Solomon']
@@ -13,6 +15,7 @@ SERVANT_NAME_LIST = []
 SERVANT_LINK_LIST = []
 SERVANT_DICTIONARY = {} # key = servant name, value = link
 SERVANT_IMAGE_DICTIONARY = defaultdict(list) # key = servant name, value = list of links
+SERVANT_IMAGE_DICTIONARY_DIRECT = defaultdict(list) # key = servant name, value = list of direct image links
 
 def main():
 	# createServantListHTML() # comment out if HTML creation isn't needed anymore
@@ -23,6 +26,7 @@ def main():
 	importServantList()
 	for servant in SERVANT_DICTIONARY:
 		createServantImageLinks(servant)
+		createImagePages(servant)
 
 def createServantListHTML():
 	request = urllib.request.Request(BASE_URL, headers = {'User-Agent': 'Mozilla/5.0'})
@@ -85,7 +89,6 @@ def importServantList():
 
 def createServantImageLinks(servantName):
 	imagePrefix = 'Portrait_Servant_'
-	mainPage = 'https://grandorder.wiki'
 	servantLink = SERVANT_DICTIONARY[servantName]
 	servantLink = modifyUnicodeURL(servantLink)
 	request = urllib.request.Request(servantLink, headers = {'User-Agent': 'Mozilla/5.0'})
@@ -96,7 +99,7 @@ def createServantImageLinks(servantName):
 		href = img.get('href')
 		if (href != None):
 			if (imagePrefix in href):
-				SERVANT_IMAGE_DICTIONARY[servantName].append(mainPage + href)
+				SERVANT_IMAGE_DICTIONARY[servantName].append(MAIN_PAGE + href)
 
 def modifyUnicodeURL(inputURL):
 	url = inputURL
@@ -105,6 +108,18 @@ def modifyUnicodeURL(inputURL):
 	url[2] = urllib.parse.quote(url[2])
 	url = urllib.parse.urlunsplit(url)
 	return url
+
+def createImagePages(servantName):
+	links = SERVANT_IMAGE_DICTIONARY[servantName]
+	for link in links:
+		request = urllib.request.Request(link, headers = {'User-Agent': 'Mozilla/5.0'})
+		response = urllib.request.urlopen(request)
+		content = response.read()
+		soup = BeautifulSoup(content, features = 'html.parser')
+		for img in soup.find_all('div', {'class': 'fullImageLink'}, limit = None):
+			aTag = img.find('a')
+			linkSuffix = aTag.get('href')
+			SERVANT_IMAGE_DICTIONARY_DIRECT[servantName].append(MAIN_PAGE + linkSuffix)
 
 if __name__ == '__main__':
 	main()
