@@ -32,7 +32,10 @@ def main():
 	createServantPageLinks()
 	createServantPageLinksHTML() # comment out if no need to update servant link .txt file
 	importServantList()
+	counter = 0
 	for servant in SERVANT_DICTIONARY:
+		counter += 1
+		print('Downloading for', servant + '... ' + '(' + str(counter) + '/' + str(len(SERVANT_DICTIONARY)) +')')
 		createServantImageLinks(servant)
 		createImagePages(servant)
 		generateFolder(servant)
@@ -135,7 +138,6 @@ def generateFolder(servantName):
 	os.makedirs(BASE_IMAGE_DIR + servantName)
 
 def downloadImages(servantName):
-	print(servantName)
 	total = len(SERVANT_IMAGE_DICTIONARY_DIRECT[servantName])
 	imageCounter = 0
 	for imageLink in SERVANT_IMAGE_DICTIONARY_DIRECT[servantName]:
