@@ -2,6 +2,8 @@ import urllib.request
 import urllib.error
 import urllib.parse
 
+import os
+
 from bs4 import BeautifulSoup
 
 from collections import defaultdict
@@ -9,6 +11,7 @@ from collections import defaultdict
 
 MAIN_PAGE = 'https://grandorder.wiki'
 BASE_URL = 'https://grandorder.wiki/Servant_List'
+BASE_IMAGE_DIR = 'ServantImages/'
 CLASS_LIST = ['Saber', 'Archer', 'Lancer', 'Caster', 'Rider', 'Assassin', 'Ruler', 'Avenger', 'Moon Cancer', 'Alter-Ego', 'Foreigner', 'Berserker', 'Shielder', 'Beast']
 EXTRA_CHARACTER_LIST = ['Beast', 'Solomon']
 SERVANT_NAME_LIST = []
@@ -18,6 +21,11 @@ SERVANT_IMAGE_DICTIONARY = defaultdict(list) # key = servant name, value = list 
 SERVANT_IMAGE_DICTIONARY_DIRECT = defaultdict(list) # key = servant name, value = list of direct image links
 
 def main():
+
+	opener = urllib.request.build_opener()
+	opener.addheaders = [('User-Agent', 'Mozilla/5.0')]
+	urllib.request.install_opener(opener)
+
 	# createServantListHTML() # comment out if HTML creation isn't needed anymore
 	soup = createSoup()
 	createTitleList(soup)
@@ -27,6 +35,8 @@ def main():
 	for servant in SERVANT_DICTIONARY:
 		createServantImageLinks(servant)
 		createImagePages(servant)
+		generateFolder(servant)
+		downloadImages(servant)
 
 def createServantListHTML():
 	request = urllib.request.Request(BASE_URL, headers = {'User-Agent': 'Mozilla/5.0'})
@@ -120,6 +130,21 @@ def createImagePages(servantName):
 			aTag = img.find('a')
 			linkSuffix = aTag.get('href')
 			SERVANT_IMAGE_DICTIONARY_DIRECT[servantName].append(MAIN_PAGE + linkSuffix)
+
+def generateFolder(servantName):
+	os.makedirs(BASE_IMAGE_DIR + servantName)
+
+def downloadImages(servantName):
+	print(servantName)
+	total = len(SERVANT_IMAGE_DICTIONARY_DIRECT[servantName])
+	imageCounter = 0
+	for imageLink in SERVANT_IMAGE_DICTIONARY_DIRECT[servantName]:
+		imageCounter += 1
+		compressedName = servantName.strip()
+		if (imageCounter == 5):
+			urllib.request.urlretrieve(imageLink, BASE_IMAGE_DIR + compressedName + '/' + compressedName + '_AF' + '.jpg')
+		else:
+			urllib.request.urlretrieve(imageLink, BASE_IMAGE_DIR + compressedName + '/' + compressedName + '_' + str(imageCounter) + '.jpg')
 
 if __name__ == '__main__':
 	main()
