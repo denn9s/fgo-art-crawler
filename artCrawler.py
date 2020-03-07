@@ -41,6 +41,9 @@ def main():
 		generateFolder(servant)
 		downloadImages(servant)
 
+def fixServantName(servant):
+	return servant.replace('/', '-')
+
 def createServantListHTML():
 	request = urllib.request.Request(BASE_URL, headers = {'User-Agent': 'Mozilla/5.0'})
 	response = urllib.request.urlopen(request)
@@ -135,6 +138,7 @@ def createImagePages(servantName):
 			SERVANT_IMAGE_DICTIONARY_DIRECT[servantName].append(MAIN_PAGE + linkSuffix)
 
 def generateFolder(servantName):
+	servantName = fixServantName(servantName)
 	os.makedirs(BASE_IMAGE_DIR + servantName)
 
 def downloadImages(servantName):
@@ -144,6 +148,8 @@ def downloadImages(servantName):
 		imageCounter += 1
 		underscoreName = servantName
 		underscoreName = underscoreName.replace(' ', '_')
+		underscoreName = fixServantName(servantName)
+		servantName = underscoreName
 		if (imageCounter == 5):
 			urllib.request.urlretrieve(imageLink, BASE_IMAGE_DIR + servantName + '/' + underscoreName + '_AF' + '.jpg')
 		elif (imageCounter == 6):
